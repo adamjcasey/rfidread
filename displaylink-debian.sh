@@ -14,6 +14,7 @@
 version=`wget -q -O - http://www.displaylink.com/downloads/ubuntu | grep "DisplayLink USB Graphics Software for Ubuntu" | head -n 1 |  perl -pe '($_)=/([0-9]+([.][0-9]+)+)/'`
 # define download url to be the correct version
 dlurl="http://www.displaylink.com/"`wget -q -O - http://www.displaylink.com/downloads/ubuntu | grep "DisplayLink USB Graphics Software for Ubuntu" | head -n 1 | grep -Po '(?<=href=")[^"]*(?=")'`
+version="1.3.52"
 driver_dir=$version
 
 separator(){
