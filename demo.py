@@ -40,7 +40,7 @@ def rfid_card_read(id):
 
     db.close()
 
-    if (results[0] == 1)
+    if (results[0] == 1):
     	return True
 
     return False
@@ -55,9 +55,9 @@ while event:
         else:
             access = rfid_card_read(out_str)
             out_str = ''
-            if (access)
+            if (access):
             	print "ACCESS GRANTED"
-            else
+            else:
             	print "ACCESS DENIED"
     
     event = in_file.read(EVENT_SIZE)
