@@ -26,7 +26,7 @@ out_str = ''
 
 def showScreen(id):
     http = urllib3.PoolManager()
-    url = "http://167.114.126.65/~adamjcas/setuser.php?user=" + id
+    url = "http://167.114.126.65/~adamjcas/setuser.php?user=" + str(id)
     print url
     r = http.request('get', url)
 
@@ -101,6 +101,9 @@ while event:
                 showScreen(102)
                 time.sleep(3)
                 showScreen(1)
+		time.sleep(10)
+		enableGPIO(False)
+		showScreen(0)
             else:
             	print "ACCESS DENIED"
                 showScreen(103)
