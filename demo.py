@@ -45,6 +45,37 @@ def rfid_card_read(id):
 
     return False
 
+def enableGPIO(enable):
+	# Get the authorization token from the base services
+	payload = {"jsonrpc":"2.0","id":1,"method":"get_auth_token","params": ["admin", base64.b64encode(PW.encode())]}
+	payload_as_string = json.dumps(payload)
+	print(payload_as_string)
+
+	http = urllib3.PoolManager( assert_hostname=False, ca_certs="/META/harting_web.crt")
+	at = http.urlopen("POST", "https://" + MICA + "/base_service/", body=payload_as_string)
+	rep_data_str = str(at.data)
+	print(rep_data_str)
+
+	ret = json.loads(rep_data_str)
+	retl = ret["result"][1]
+
+	# Connect to the GPIO container
+	ws_url = "wss://"+MICA+"/"+GPIO_CONTAINER+"/"
+	wesckt = websocket.create_connection(ws_url,sslopt = {"cert_reqs":ssl.CERT_NONE, "ca_certs":"/META/harting.crt", "check_hostame":False})
+	call = {"id":1, "method":"login", "params": [retl]}
+	wesckt.send(json.dumps(call))
+	print(json.dumps(call))
+	result_str = wesckt.recv()
+	print(result_str)
+
+	# Set or clear the GPIO
+	if enable:
+		call = {"id":1,"method":"set_state","params":[0,1]}
+	else:
+		call = {"id":1,"method":"set_state","params":[0,0]}
+	wesckt.send(json.dumps(call))
+	print(wesckt.recv())
+
 
 ###------------------------------------------------------------------------ 
 while event:
@@ -59,6 +90,7 @@ while event:
             	print "ACCESS GRANTED"
             else:
             	print "ACCESS DENIED"
+            enableGPIO(access)
     
     event = in_file.read(EVENT_SIZE)
 
