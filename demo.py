@@ -36,8 +36,14 @@ def rfid_card_read(id):
         print "Access = %d" % (results[0])
     except:
         print "Error: unable to fecth data"
+        return False
 
     db.close()
+
+    if (results[0] == 1)
+    	return True
+
+    return False
 
 
 ###------------------------------------------------------------------------ 
@@ -47,8 +53,12 @@ while event:
         if code <= 11:
             out_str += str(code_to_ascii[code])
         else:
-            rfid_card_read(out_str)
+            access = rfid_card_read(out_str)
             out_str = ''
+            if (access)
+            	print "ACCESS GRANTED"
+            else
+            	print "ACCESS DENIED"
     
     event = in_file.read(EVENT_SIZE)
 
