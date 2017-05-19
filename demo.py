@@ -1,10 +1,21 @@
 import struct
 import MySQLdb
+import sys, json, websocket, ssl, urllib3
+import base64
 
+# Constants
 infile_path = "/dev/input/event0"
 FORMAT = 'llHHI'
 EVENT_SIZE = struct.calcsize(FORMAT)
 code_to_ascii = {11:0,2:1,3:2,4:3,5:4,6:5,7:6,8:7,9:8,10:9}
+DB_SERVER = "192.168.137.1"
+DB_USER = "root"
+DB_PASS = "root"
+DB_NAME = "rfidemo"
+MICA = "192.168.137.100"
+GPIO_CONTAINER = "GPIODemo"
+ROLE = "admin"
+PW = "admin"
 
 # Open the file in binary mode
 in_file = open(infile_path, "rb")
@@ -16,7 +27,7 @@ def rfid_card_read(id):
     print ("RFID: %s" % (id))
 
     # Open database connection and get the approval
-    db = MySQLdb.connect("192.168.137.1", "root", "root", "rfiddemo")
+    db = MySQLdb.connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME)
     cursor = db.cursor()
     sql = "SELECT toolaccess FROM user WHERE tagvalue=%s" % (id)
     try:
