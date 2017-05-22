@@ -3,9 +3,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>RFID Demo</title>
+<style>
+body { background-image : url('0.png');  
+       background-repeat:no-repeat;
+       background-size:cover; }
+</style>
+<script src="jquery-3.2.1.min.js"></script>
+<script>
+$.preloadImages = function() {
+  for (var i = 0; i < arguments.length; i++) {
+    $("<img />").attr("src", arguments[i]);
+  }
+}
+
+$.preloadImages("1.png","101.png","102.png","103.png");
+var interval = 1000;  
+function doAjax() {
+    $.ajax({
+            type: 'GET',
+            url: 'http://167.114.126.65/~adamjcas/getuser.php',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (data) {
+                    $("body").css("background-image", "url('" + data + ".png')");    
+            },
+            complete: function (data) {
+                    // Schedule the next
+                    setTimeout(doAjax, interval);
+            }
+    });
+}
+setTimeout(doAjax, interval);
+</script>
 </head>
 <body>
 
-<h1>IT WORKS</h1>
 </body>
 </html>

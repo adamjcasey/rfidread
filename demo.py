@@ -88,9 +88,18 @@ while event:
             out_str = ''
             if (access):
             	print "ACCESS GRANTED"
+                showScreen(101)
+                time.sleep(5)
+                enableGPIO(True)
+                showScreen(102)
+                time.sleep(3)
+                showScreen(1)
             else:
             	print "ACCESS DENIED"
-            enableGPIO(access)
+                showScreen(103)
+                enableGPIO(False)
+                time.sleep(3)
+                showScreen(0)
     
     event = in_file.read(EVENT_SIZE)
 
