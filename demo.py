@@ -2,6 +2,7 @@ import struct
 import MySQLdb
 import sys, json, websocket, ssl, urllib3
 import base64
+import time
 
 # Constants
 infile_path = "/dev/input/event0"
@@ -22,6 +23,12 @@ in_file = open(infile_path, "rb")
 
 event = in_file.read(EVENT_SIZE)
 out_str = ''
+
+def showScreen(id):
+    http = urllib3.PoolManager()
+    url = "http://167.114.126.65/~adamjcas/setuser.php?user=" + id
+    print url
+    r = http.request('get', url)
 
 def rfid_card_read(id):
     print ("RFID: %s" % (id))
